@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 const Welcome = ({user, onSignOut})=> {
   // This is a dumb "stateless" component
@@ -11,9 +12,9 @@ const Welcome = ({user, onSignOut})=> {
 }
 
 class LoginForm extends React.Component {
-  
+
   // Using a class based component here because we're accessing DOM refs
- 
+  
   handleSignIn(e) {
     e.preventDefault()
     let username = this.refs.username.value
@@ -23,6 +24,8 @@ class LoginForm extends React.Component {
   
   render() {
     return (
+      <div>
+      <div>
       <form onSubmit={this.handleSignIn.bind(this)}>
         <h3>Entre:</h3>
         <input type="text" ref="username" placeholder="Username" />
@@ -31,6 +34,8 @@ class LoginForm extends React.Component {
         <p></p>
         <input type="submit" value="Login" />
       </form>
+      </div>
+      </div>
     )
   }
 
