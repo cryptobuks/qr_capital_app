@@ -1,96 +1,145 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import CryptoContainer from './CryptoContainer'
 
-const Welcome = ({user, onSignOut})=> {
-  // This is a dumb "stateless" component
-  return (
-    <div>
-      Welcome <strong>{user.username}</strong>!
-      <a href="javascript:;" onClick={onSignOut}>Sign out</a>
-    </div>
-  )
+
+
+class Header extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.props.text}</h1>
+      </div>
+    )
+  }
+}
+
+class Footer extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  
+  render() {
+    return <div><h3>{this.props.text}</h3></div>
+  }
+}
+
+class Input extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      inputVal: ""
+    }
+    this.changeHandler = this.changeHandler.bind(this)
+  }
+    
+  changeHandler(e) {
+    this.props.parentFunction(e.target.value)
+  }
+  
+  render() {
+    return (
+      <div>
+        <label>{this.props.labelName}</label>
+        <input type={this.props.inputType} id={this.props.id} onChange={this.changeHandler} />
+      </div>
+    )
+  }
 }
 
 class LoginForm extends React.Component {
+  isClicked = false
 
-  // Using a class based component here because we're accessing DOM refs
-  
-  handleSignIn(e) {
-    e.preventDefault()
-    let username = this.refs.username.value
-    let password = this.refs.password.value
-    this.props.onSignIn(username, password)
-  }
-  
-  render() {
-    return (
-      <div>
-      <div>
-      <form onSubmit={this.handleSignIn.bind(this)}>
-        <h3>Entre:</h3>
-        <input type="text" ref="username" placeholder="Username" />
-        <p></p>
-        <input type="password" ref="password" placeholder="Password" />
-        <p></p>
-        <input type="submit" value="Login" />
-      </form>
-      </div>
-      </div>
-    )
-  }
-
-}
-
-
-class App extends React.Component {
-  
   constructor(props) {
     super(props)
-    // the initial application state
     this.state = {
-      user: null
+      username: "",
+      password: ""
     }
+    this.clickHandler = this.clickHandler.bind(this)
+    this.setUsername = this.setUsername.bind(this)
+    this.setPassword = this.setPassword.bind(this)
   }
   
-  // App "actions" (functions that modify state)
-  signIn(username, password) {
-    // This is where you would call Firebase, an API etc...
-    // calling setState will re-render the entire app (efficiently!)
-    this.setState({
-      user: {
-        username,
-        password,
-      }
-    })
+  setUsername(username) {
+    this.setState({username: username})
   }
   
-  signOut() {
-    // clear out user from state
-    this.setState({user: null})
+  setPassword(password) {
+    this.setState({password: password})
   }
   
-  render() {
-    // Here we pass relevant state to our child components
-    // as props. Note that functions are passed using `bind` to
-    // make sure we keep our scope to App
-    return (
-      <div>
-        { 
-          (this.state.user) ? 
-            <Welcome 
-             user={this.state.user} 
-             onSignOut={this.signOut.bind(this)} 
-            />
-          :
-            <LoginForm 
-             onSignIn={this.signIn.bind(this)} 
-            />
-        }
-      </div>
-    )
+  clickHandler() {
+    // put your own code here
+    if(this.state.username=="admin"&&this.state.password=="admin"){
+      alert(`Entrou com sucesso!`)
+      this.isClicked = true
+      this.forceUpdate()
+    }
+    else{
+      alert(`Usuário ou senha incorreta! \nps: tente "admin" "admin"`)
+    }
+    
+    
     
   }
 
+  
+  render() {
+    if(this.isClicked){
+      return (
+        <div>
+          <h3>Entre:</h3>
+          <p>usuário:</p>
+          <Input id ="username" inputType="text" parentFunction={this.setUsername} placeholder="enter you username" />
+          <p>senha:</p>
+          <Input id ="password" inputType="password" parentFunction={this.setPassword} placeholder="senha" /> 
+          <button onClick={this.clickHandler}>{"submit"}</button>
+          <p></p>
+          <CryptoContainer />
+        </div>
+      )
+    }
+    else{
+      return (
+        <div>
+          <h3>Entre:</h3>
+          <p>usuário:</p>
+          <Input id ="username" inputType="text" parentFunction={this.setUsername} placeholder="enter you username" />
+          <p>senha:</p>
+          <Input id ="password" inputType="password" parentFunction={this.setPassword} placeholder="senha" /> 
+          <button onClick={this.clickHandler}>{"submit"}</button>
+        </div>
+      )
+    }
+  }
 }
+
+class Content extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+  
+  render() {
+    return (
+      <div>
+        <CryptoContainer />
+      </div>
+    )
+  }
+}
+
+class Main extends React.Component {
+  render() {
+    return (
+      <div>
+      </div>
+    )
+  }
+}
+
 
 export default LoginForm;

@@ -14,8 +14,7 @@ class App extends Component {
           <h2>for QR Capital</h2>
         </header>
         <LoginForm />
-        <p>pra separar</p>
-        <CryptoContainer />
+        <p></p>
       </div>
     );
   }

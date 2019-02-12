@@ -26,7 +26,9 @@ class CryptoContainer extends Component {
       
       return (
         <div>
-          Testando 1, 2, 3
+          <p>Aqui deveria entrar os dados das top 10 moedas com suas respectivas cotações em Reais.</p>
+          <p>Repare que ao inspecionar o elemento da página com o server do Ruby on Rails ligado, na aba "console", aparecem os dados corrretos</p>
+          <p> só não consegui passar eles para renderizar na página</p>
           
               <div>
                 {this.state.coins[0]}
